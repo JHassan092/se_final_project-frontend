@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  background: #000;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 85px;
+  box-sizing: border-box;
+  z-index: 1100;
+  font-family: Ubuntu, sans-serif;
+  font-weight: 400;
+}
+
+.header__logo {
+  max-width: 200px;
+  height: auto;
+  position: relative;
+  left: -31px;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.header__logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.header__button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
