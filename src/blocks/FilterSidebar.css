@@ -1,0 +1,97 @@
+/* Sidebar layout and controls */
+.sidebar {
+  background-color: #1e1e2f;
+  color: white;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  box-sizing: border-box;
+  /* Make the sidebar follow scroll but stick under the fixed header */
+  position: sticky;
+  top: 110px; /* matches header height/margin-top in App.css */
+  align-self: flex-start; /* ensure sticky works inside flex container */
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  z-index: 900;
+  border-radius: 8px;
+}
+
+.sidebar__btn-group {
+  margin-bottom: 1rem;
+}
+
+.sidebar__home-btn {
+  display: block;
+  padding: 0.5rem;
+  background: #3f51b5;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+  width: 145px;
+}
+
+.sidebar__favorites-btn {
+  display: block;
+  padding: 0.5rem;
+  background: #e91e63;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+  width: 145px;
+  margin-top: 0.5rem;
+}
+
+.sidebar__section {
+  margin-bottom: 1.5rem;
+}
+
+.sidebar__section-title {
+  font-size: 25px;
+  margin-bottom: -0.5rem;
+}
+
+.sidebar__list {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar__filter-btn {
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  padding: 0.25rem 0;
+  cursor: pointer;
+}
+
+.sidebar__clear-btn {
+  display: block;
+  margin-top: 10px;
+  padding: 0.5rem;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar__clear-btn:hover {
+  background-color: #ff4444;
+}
+
+.sidebar__filter-btn.active {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.sidebar__filter-btn:hover {
+  text-decoration: underline;
+}

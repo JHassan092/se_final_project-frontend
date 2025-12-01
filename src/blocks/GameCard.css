@@ -1,0 +1,72 @@
+.game__card {
+  position: relative;
+  background-color: #2c2c3c;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease;
+  width: 100%; /* Changed from max-width: fit-content */
+  grid-row-end: span var(--row-span); /* This creates the masonry effect */
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
+.game__card:hover {
+  transform: scale(1.03);
+}
+
+.game__card-image {
+  width: 100%;
+  height: 200px; /* Increased for better visual impact */
+  object-fit: cover;
+}
+
+/* Keep your platform icons exactly as they are */
+.game__card-platforms {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 6px;
+}
+
+.game__card_platform-icon {
+  width: 10px;
+  height: 16px;
+}
+
+.game__card-hovered {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.game__card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  color: white;
+}
+
+.game__card-title {
+  font-size: 1rem;
+  margin: 0;
+  font-family: Ubuntu, sans-serif;
+  font-weight: 700;
+}
+
+.game__card-favorite-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: white;
+  cursor: pointer;
+}
+
+.game__card-favorite-btn.active {
+  color: gold;
+}
