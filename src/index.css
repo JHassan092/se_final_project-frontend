@@ -30,6 +30,19 @@ body {
   min-height: 100vh;
 }
 
+/* Prevent horizontal overflow on mobile/tablet */
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* Use border-box universally to avoid width + padding overflow issues */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

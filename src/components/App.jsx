@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { FavoritesProvider } from "../context/FavoritesContext.jsx";
 import { Routes, Route } from "react-router-dom";
 import { fetchPlatforms, fetchGenres, searchGames } from "../api/api.js";
@@ -18,7 +18,19 @@ export default function App() {
   const [selectedPlatform, setSelectedPlatform] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [modalClosed, handleModalClose] = useState(false);
+  const [activeModal, setActiveModal] = useState("");
+
+  const handleLoginClick = () => {
+    setActiveModal("Login");
+  };
+
+  const handleRegisterClick = () => {
+    setActiveModal("Register");
+  };
+
+  const handleModalClose = () => {
+    setActiveModal("");
+  };
 
   {
     /* Fetching platforms and genres once at the app level */
@@ -62,7 +74,11 @@ export default function App() {
 
   return (
     <FavoritesProvider>
-      <Header onSearch={handleSearch} />
+      <Header
+        onSearch={handleSearch}
+        handleLoginClick={handleLoginClick}
+        handleRegisterClick={handleRegisterClick}
+      />
       <div className="page">
         <FilterSideBar
           platforms={platforms}
@@ -88,8 +104,18 @@ export default function App() {
           </Routes>
         </div>
       </div>
-      <LoginModal />
-      <RegisterModal />
+      <LoginModal
+        isOpen={activeModal === "Login"}
+        handleModalClose={handleModalClose}
+        onLogin={handleLoginSubmit}
+        switchToRegister={handleRegisterClick}
+      />
+      <RegisterModal
+        isOpen={activeModal === "Register"}
+        handleModalClose={handleModalClose}
+        onRegister={handleRegisterSubmit}
+        switchToLogin={handleLoginClick}
+      />
     </FavoritesProvider>
   );
 }

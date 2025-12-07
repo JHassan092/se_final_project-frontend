@@ -4,7 +4,6 @@ const RAWG_BASE_URL = "https://api.rawg.io/api";
 
 async function fetchGames(params = {}) {
   const url = new URL(`${RAWG_BASE_URL}/games`);
-  console.log("Fetching:", url.toString());
 
   url.searchParams.set("key", RAWG_API_KEY);
 
