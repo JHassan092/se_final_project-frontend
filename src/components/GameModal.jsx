@@ -58,9 +58,10 @@ export default function GameModal({ gameId, activeModalId, handleModalClose }) {
           >
             {favorited ? "❤️" : "🤍"}
           </button>
-          <button className="game__modal-close-btn" onClick={handleModalClose}>
-            X
-          </button>
+          <button
+            className="game__modal-close-btn"
+            onClick={handleModalClose}
+          ></button>
         </div>
 
         <div className="game__modal-header">

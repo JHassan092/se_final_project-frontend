@@ -1,18 +1,16 @@
 .game__modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85); /* dark overlay */
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
-  /* ensure modal overlay sits above the fixed header */
   z-index: 2000;
 }
 
-/* Panel that holds the modal content */
 .game__modal-content {
-  background: #000; /* solid black panel */
+  background: #000;
   color: #fff;
   width: 100%;
   max-width: 900px;
@@ -25,7 +23,6 @@
   flex-direction: column;
 }
 
-/* Buttons (close / favorite) positioned in the top-right corner */
 .game__modal-btns {
   position: absolute;
   top: 12px;
@@ -35,7 +32,17 @@
   z-index: 2;
 }
 
-.game__modal-close-btn,
+.game__modal-close-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  background-image: url(../assets/images/close.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
 .game__card-favorite-btn {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -46,7 +53,6 @@
 }
 
 .game__modal-header {
-  /* header contains the image first then title */
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -57,13 +63,13 @@
   height: 360px;
   object-fit: cover;
   display: block;
-  opacity: 0.9; /* slightly faded */
+  opacity: 0.9;
   filter: brightness(0.8);
 }
 
 .game__modal-title {
   margin: 16px 20px 8px 20px;
-  font-size: 1.5rem;
+  font-size: 24px;
   line-height: 1.2;
 }
 
@@ -85,7 +91,7 @@
   background: rgba(255, 255, 255, 0.03);
   padding: 6px 8px;
   border-radius: 6px;
-  font-size: 0.9rem;
+  font-size: 14px;
 }
 
 .game__modal-footer {
@@ -116,5 +122,145 @@
 
 .game__modal-similar-game-title {
   margin-top: 8px;
-  font-size: 0.9rem;
+  font-size: 14px;
+}
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+  .game__modal {
+    padding: 12px;
+  }
+
+  .game__modal-content {
+    max-width: 90vw;
+    max-height: calc(100vh - 24px);
+    border-radius: 8px;
+  }
+
+  .game__modal-header {
+    gap: 16px;
+  }
+
+  .game__modal-image {
+    height: 250px;
+  }
+
+  .game__modal-body {
+    padding: 16px;
+  }
+
+  .game__modal-title {
+    font-size: 20px;
+  }
+
+  .game__modal-rating,
+  .game__modal-released {
+    font-size: 14px;
+  }
+
+  .game__modal-description {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .game__modal-section {
+    margin-bottom: 16px;
+  }
+
+  .game__modal-section-title {
+    font-size: 16px;
+  }
+}
+
+/* Phones (480px and below) */
+@media (max-width: 480px) {
+  .game__modal {
+    padding: 0;
+  }
+
+  .game__modal-content {
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .game__modal-btns {
+    top: 8px;
+    right: 8px;
+  }
+
+  .game__modal-close-btn {
+    width: 32px;
+    height: 32px;
+  }
+  .game__card-favorite-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: none;
+  }
+
+  .game__modal-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .game__modal-image {
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .game__modal-body {
+    padding: 12px;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+
+  .game__modal-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .game__modal-rating,
+  .game__modal-released {
+    font-size: 13px;
+  }
+
+  .game__modal-description {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  .game__modal-section {
+    margin-bottom: 12px;
+  }
+
+  .game__modal-section-title {
+    font-size: 14px;
+  }
+
+  .game__modal-tags-container {
+    gap: 4px;
+  }
+
+  .game__modal-tag {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .game__modal-similar-games {
+    gap: 8px;
+    max-height: 180px;
+  }
+
+  .game__modal-similar-game {
+    width: calc(50% - 4px);
+    height: 100px;
+  }
+
+  .game__modal-similar-game-title {
+    font-size: 12px;
+    margin-top: 4px;
+  }
 }

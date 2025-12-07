@@ -1,8 +1,10 @@
 import ModalWithForm from "./ModalWithForm";
 
+import "../blocks/LoginModal.css";
+
 export default function LoginModal({
   isOpen,
-  handleClose,
+  handleModalClose,
   onLogin,
   switchToRegister,
 }) {
@@ -11,13 +13,23 @@ export default function LoginModal({
       title="Login"
       buttonText="Log In"
       isOpen={isOpen}
-      handleModalClose={handleClose}
+      handleModalClose={handleModalClose}
       onSubmit={onLogin}
       onSwitch={switchToRegister}
       switchText="Register"
     >
-      <input type="email" name="email" placeholder="email" />
-      <input type="password" name="password" placeholder="password" />
+      <input
+        className="modal__input"
+        type="email"
+        name="email"
+        placeholder="email"
+      />
+      <input
+        className="modal__input"
+        type="password"
+        name="password"
+        placeholder="password"
+      />
     </ModalWithForm>
   );
 }

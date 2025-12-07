@@ -27,13 +27,37 @@
 }
 
 .home__header-container {
-  /* container for header in Home. Header itself is fixed via Header.css
-     so keep this container normal (not fixed) to avoid nested fixed contexts */
   position: static;
 }
 
 @keyframes spin {
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+  .home__content {
+    flex-direction: column;
+  }
+
+  .home__circle-preloader {
+    width: 40px;
+    height: 40px;
+    border-width: 3px;
+  }
+}
+
+/* Phones (480px and below) */
+@media (max-width: 480px) {
+  .home {
+    min-height: calc(100vh - 60px);
+  }
+
+  .home__circle-preloader {
+    width: 30px;
+    height: 30px;
+    border-width: 2px;
   }
 }

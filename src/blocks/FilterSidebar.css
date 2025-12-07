@@ -1,4 +1,3 @@
-/* Sidebar layout and controls */
 .sidebar {
   background-color: #1e1e2f;
   color: white;
@@ -8,10 +7,9 @@
   align-items: flex-start;
   padding: 20px;
   box-sizing: border-box;
-  /* Make the sidebar follow scroll but stick under the fixed header */
   position: sticky;
-  top: 110px; /* matches header height/margin-top in App.css */
-  align-self: flex-start; /* ensure sticky works inside flex container */
+  top: 110px;
+  align-self: flex-start;
   max-height: calc(100vh - 110px);
   overflow-y: auto;
   z-index: 900;
@@ -19,12 +17,12 @@
 }
 
 .sidebar__btn-group {
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .sidebar__home-btn {
   display: block;
-  padding: 0.5rem;
+  padding: 8px;
   background: #3f51b5;
   color: white;
   text-align: center;
@@ -35,23 +33,23 @@
 
 .sidebar__favorites-btn {
   display: block;
-  padding: 0.5rem;
+  padding: 8px;
   background: #e91e63;
   color: white;
   text-align: center;
   border-radius: 4px;
   text-decoration: none;
   width: 145px;
-  margin-top: 0.5rem;
+  margin-top: 8px;
 }
 
 .sidebar__section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
 }
 
 .sidebar__section-title {
   font-size: 25px;
-  margin-bottom: -0.5rem;
+  margin-bottom: -8px;
 }
 
 .sidebar__list {
@@ -64,19 +62,19 @@
   border: none;
   color: white;
   text-align: left;
-  padding: 0.25rem 0;
+  padding: 4px 0;
   cursor: pointer;
 }
 
 .sidebar__clear-btn {
   display: block;
   margin-top: 10px;
-  padding: 0.5rem;
+  padding: 8px;
   color: white;
   text-align: center;
   border-radius: 4px;
   text-decoration: none;
-  width: 100%;
+  width: 145px;
   border: none;
   cursor: pointer;
 }
@@ -94,4 +92,95 @@
 
 .sidebar__filter-btn:hover {
   text-decoration: underline;
+}
+
+.sidebar__mobile-toggle {
+  display: none;
+  background: #3f51b5;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.sidebar__mobile-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: relative;
+    top: auto;
+    max-height: auto;
+    margin-bottom: 16px;
+    padding: 15px;
+    border-radius: 6px;
+  }
+
+  .sidebar__mobile-toggle {
+    display: block;
+  }
+
+  .sidebar__mobile-content {
+    display: none;
+    width: 100%;
+  }
+
+  .sidebar__mobile-content.open {
+    display: flex;
+  }
+
+  .sidebar__section {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .sidebar__section-title {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .sidebar__home-btn,
+  .sidebar__favorites-btn {
+    width: 100%;
+  }
+}
+
+/* Phones (480px and below) */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+
+  .sidebar__section-title {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .sidebar__list {
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  .sidebar__filter-btn {
+    padding: 8px 0;
+    font-size: 13px;
+  }
+
+  .sidebar__home-btn,
+  .sidebar__favorites-btn {
+    padding: 12px;
+    font-size: 13px;
+    width: 100%;
+  }
 }
