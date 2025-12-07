@@ -41,30 +41,6 @@ The Vite dev server will print the local URL (commonly `http://localhost:5173` o
 
 3. Open the app in your browser and test responsiveness at common breakpoints (e.g. 768px, 480px, 360px).
 
-## Build
-
-```bash
-npm run build
-```
-
-Preview the production build locally:
-
-```bash
-npm run preview
-```
-
-## Environment / API Key
-
-The project currently uses the RAWG API. There is a key visible in `src/api/api.js` for convenience during development. For production or private repos you should:
-
-- Move the API key to an environment variable (e.g. `VITE_RAWG_API_KEY`) and update `src/api/api.js` to read from `import.meta.env.VITE_RAWG_API_KEY`.
-
-Example `.env` (local only — do NOT commit):
-
-```text
-VITE_RAWG_API_KEY=your_rawg_api_key_here
-```
-
 ## Project Structure (important files)
 
 - `index.html` — Vite entry
