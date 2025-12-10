@@ -18,6 +18,10 @@ A React frontend for the SE final project: a games catalogue using the RAWG API.
 - Plain CSS (files under `src/blocks/`)
 - RAWG API for game data
 
+## Deployement / Preview
+
+Project is deployed using Netlify [at](https://poetic-praline-87512b.netlify.app/)
+
 ## Prerequisites
 
 - Node.js 18+ and npm (or yarn)
