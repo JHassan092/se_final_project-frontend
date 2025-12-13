@@ -1,83 +1,70 @@
-# Video Game Discovery Directory (Frontend)
+# SE Final Project — Frontend
 
-A responsive, React-based web app that helps users discover, explore, and save video games using data from three free APIs: RAWG, Find Similar Games, and YouTube. Built with performance, accessibility, and clean code in mind.
-
----
+A React frontend for the SE final project: a games catalogue using the RAWG API. Built with Vite, React (hooks), React Router v6 and plain CSS. The app includes search, filtering (platforms & genres), game details modal, and a favorites list persisted to localStorage.
 
 ## Features
 
-- **Search Games** by title using the RAWG API
-- **Filter by Genre, Platform, Rating**
-- **View Game Details** including screenshots, trailers, and similar games
-- **Watch Gameplay Videos** via YouTube Data API
-- **Save Favorites** and manage them locally
-- **Responsive Design** for all screen sizes (≥320px, no horizontal scroll)
-
----
+- Browse popular games (paginated)
+- Search and filter by platform and genre
+- Game detail modal with similar games
+- Mark/unmark favorites (persisted in `localStorage`)
+- Responsive layout with a header and a collapsible filter sidebar
 
 ## Tech Stack
 
-- **React + Vite** for fast development
-- **React Router** for navigation
-- **Tailwind CSS** for styling (or plain CSS modules)
-- **Fetch API** for all requests (no third-party libraries)
-- **LocalStorage** for favorites and watchlist
-- **Semantic HTML + BEM CSS** for clean markup
-- **@font-face** for custom fonts with system fallbacks
+- React (functional components + hooks)
+- React Router v6
+- Vite (dev server, build)
+- Plain CSS (files under `src/blocks/`)
+- RAWG API for game data
 
----
+## Deployement / Preview
 
-## APIs Used
+Project is deployed using Netlify [at](https://poetic-praline-87512b.netlify.app/)
 
-| API                                                                          | Purpose         |
-| ---------------------------------------------------------------------------- | --------------- |
-| [RAWG API](https://rawg.io/apidocs)                                          | Game metadata   |
-| [Find Similar Games API](https://apileague.com/apis/find-similar-games-api/) | Recommendations |
-| [YouTube Data API v3](https://developers.google.com/youtube/v3)              | Gameplay videos |
+## Prerequisites
 
----
+- Node.js 18+ and npm (or yarn)
+- Internet access for the RAWG API
 
-## Project Structure
+## Setup — Local Development
 
+1. Install dependencies
+
+```bash
+npm install
 ```
 
-client/
-├── components/
-│ ├── SearchBar.jsx
-│ ├── FilterSidebar.jsx
-│ ├── GameCard.jsx
-│ ├── GameModal.jsx
-│ └── FavoritesPage.jsx
-├── assets/
-│ ├── images/
-│ └── fonts/
-├── api/
-│ └── api.js
-├── App.jsx
-├── index.jsx
-└── styles/
-└── \*.css
+2. Start the dev server
 
+```bash
+npm run dev
 ```
 
----
+The Vite dev server will print the local URL (commonly `http://localhost:5173` or `http://localhost:5174` if 5173 is occupied).
 
-## Performance Criteria Highlights
+3. Open the app in your browser and test responsiveness at common breakpoints (e.g. 768px, 480px, 360px).
 
-- Semantic HTML
-- BEM naming convention
-- Responsive layout with flex/grid
-- Hooks used correctly
-- API logic in `App.jsx`, with `.catch()` and `res.json()`
-- Error messages shown to users
-- No unused variables or redundant logic
-- Clean, readable, commented code
+## Project Structure (important files)
 
----
+- `index.html` — Vite entry
+- `src/main.jsx` — React entry
+- `src/components/` — React components (App, Header, Home, GameCard, GameModal, etc.)
+- `src/blocks/` — CSS files for components
+- `src/api/api.js` — RAWG API helpers (fetchPopularGames, fetchGameDetail, fetchGenres, fetchPlatforms, searchGames)
+- `src/context/` — React Contexts (e.g. `FavoritesContext.jsx`)
 
-## Contact
+## Development Notes / Known Behaviors
 
-Built by Hassan
-Feel free to reach out via [LinkedIn](https://www.linkedin.com/in/hassan-jamot-tothestars/) or [GitHub](https://github.com/LayZ092)
+- Favorites are stored in `localStorage` via `FavoritesContext`.
+- Header and FilterSidebar are lifted to `App.jsx` so they persist across routes (including `/favorites`).
+- Mobile UX: header includes a hamburger menu and the filter sidebar has a mobile toggle.
+- If you see a horizontal scrollbar on mobile/tablet, try these steps:
+  - Verify viewport width in DevTools and test at 768px, 480px, and 360px.
+  - The app includes `overflow-x: hidden` in `src/index.css` as a protective measure; we can instead instrument the DOM to find offending elements if you want to fix the root cause.
 
----
+## Scripts (from `package.json`)
+
+- `npm run dev` — start Vite dev server
+- `npm run build` — create production build
+- `npm run preview` — preview production build locally
