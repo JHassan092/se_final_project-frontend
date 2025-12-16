@@ -5,34 +5,62 @@ const FavoritesContext = createContext();
 export const useFavorites = () => useContext(FavoritesContext);
 
 export const FavoritesProvider = ({ children }) => {
-  const [favorites, setFavorites] = useState(() => {
-    try {
-      if (typeof window === "undefined") return [];
-      const stored = localStorage.getItem("favorites");
-      return stored ? JSON.parse(stored) : [];
-    } catch (err) {
-      console.error("Failed to read favorites from localStorage:", err);
-      return [];
-    }
-  });
+  const [favorites, setFavorites] = useState([]);
 
-  useEffect(() => {
-    try {
-      localStorage.setItem("favorites", JSON.stringify(favorites));
-    } catch (err) {
-      console.error("Failed to write favorites to localStorage:", err);
-    }
-  }, [favorites]);
+  const loadFavorites = async () => {
+    const token = localStorage.getItem("token");
 
-  const addToFavorites = (game) => {
-    setFavorites((prev) => {
-      if (prev.some((g) => g.id === game.id)) return prev;
-      return [...prev, game];
+    if (!token) return;
+
+    const res = await fetch("/api/favorites", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
+
+    if (res.ok) {
+      const data = await res.json();
+      setFavorites(data.favorites);
+    }
   };
 
-  const removeFromFavorites = (gameId) => {
-    setFavorites((prev) => prev.filter((game) => game.id !== gameId));
+  useEffect(() => {
+    loadFavorites();
+  }, []);
+
+  const addToFavorites = async (game) => {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch("/api/favorites", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ gameId: game.id }),
+    });
+
+    if (res.ok) {
+      setFavorites((prev) => {
+        if (prev.some((g) => g.id === game.id)) return prev;
+        return [...prev, game];
+      });
+    }
+  };
+
+  const removeFromFavorites = async (gameId) => {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch(`/api/favorites/${gameId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.ok) {
+      setFavorites((prev) => prev.filter((game) => game.id !== gameId));
+    }
   };
 
   const isFavorite = (gameId) => {
@@ -49,6 +77,7 @@ export const FavoritesProvider = ({ children }) => {
     removeFromFavorites,
     isFavorite,
     clearFavorites,
+    loadFavorites,
   };
 
   return (
