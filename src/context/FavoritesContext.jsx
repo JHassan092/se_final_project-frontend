@@ -4,12 +4,11 @@ const FavoritesContext = createContext();
 
 export const useFavorites = () => useContext(FavoritesContext);
 
-export const FavoritesProvider = ({ children }) => {
+export const FavoritesProvider = ({ children, token, isLoggedIn }) => {
   const [favorites, setFavorites] = useState([]);
 
+  // Load favorites from backend
   const loadFavorites = async () => {
-    const token = localStorage.getItem("token");
-
     if (!token) return;
 
     const res = await fetch("/api/favorites", {
@@ -20,16 +19,26 @@ export const FavoritesProvider = ({ children }) => {
 
     if (res.ok) {
       const data = await res.json();
-      setFavorites(data.favorites);
+      setFavorites(data);
     }
   };
 
   useEffect(() => {
     loadFavorites();
-  }, []);
+  }, [token, isLoggedIn]);
 
+  // Add's to favorite
   const addToFavorites = async (game) => {
-    const token = localStorage.getItem("token");
+    const tempFav = {
+      _id: "temp-" + game.id,
+      gameId: game.id,
+      name: game.name,
+      background_image: game.background_image,
+      rating: game.rating,
+      released: game.released,
+    };
+
+    setFavorites((prev) => [...prev, tempFav]);
 
     const res = await fetch("/api/favorites", {
       method: "POST",
@@ -37,21 +46,33 @@ export const FavoritesProvider = ({ children }) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ gameId: game.id }),
+      body: JSON.stringify({
+        gameId: game.id,
+        name: game.name,
+        background_image: game.background_image,
+        rating: game.rating,
+        released: game.released,
+      }),
     });
 
     if (res.ok) {
-      setFavorites((prev) => {
-        if (prev.some((g) => g.id === game.id)) return prev;
-        return [...prev, game];
-      });
+      const newFav = await res.json();
+      setFavorites((prev) =>
+        prev.map((f) => (f._id === tempFav._id ? newFav : f))
+      );
     }
   };
 
-  const removeFromFavorites = async (gameId) => {
-    const token = localStorage.getItem("token");
+  // Removes from favorite
+  const removeFromFavorites = async (fav) => {
+    if (!fav) return;
 
-    const res = await fetch(`/api/favorites/${gameId}`, {
+    if (fav._id.startsWith("temp-")) {
+      setFavorites((prev) => prev.filter((f) => f._id !== fav._id));
+      return;
+    }
+
+    const res = await fetch(`/api/favorites/${fav._id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -59,29 +80,38 @@ export const FavoritesProvider = ({ children }) => {
     });
 
     if (res.ok) {
-      setFavorites((prev) => prev.filter((game) => game.id !== gameId));
+      setFavorites((prev) => prev.filter((f) => f._id !== fav._id));
     }
   };
 
+  // Check if game is favorite
   const isFavorite = (gameId) => {
-    return favorites.some((game) => game.id === gameId);
+    return favorites.some((fav) => String(fav.gameId) === String(gameId));
   };
 
-  const clearFavorites = () => {
+  // Clear all button
+  const clearFavorites = async () => {
+    await fetch("/api/favorites", {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     setFavorites([]);
   };
 
-  const value = {
-    favorites,
-    addToFavorites,
-    removeFromFavorites,
-    isFavorite,
-    clearFavorites,
-    loadFavorites,
-  };
-
   return (
-    <FavoritesContext.Provider value={value}>
+    <FavoritesContext.Provider
+      value={{
+        favorites,
+        addToFavorites,
+        removeFromFavorites,
+        isFavorite,
+        loadFavorites,
+        clearFavorites,
+      }}
+    >
       {children}
     </FavoritesContext.Provider>
   );

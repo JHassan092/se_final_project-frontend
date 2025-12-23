@@ -12,8 +12,8 @@ export default function Favorites() {
       <div className="favorites">
         <h2 className="favorites__title">Your Favorites</h2>
         <div className="game__grid">
-          {favorites.map((game) => (
-            <GameCard game={game} key={game.id} />
+          {favorites.map((fav) => (
+            <GameCard game={{ ...fav, id: fav.gameId }} key={fav._id} />
           ))}
         </div>
       </div>

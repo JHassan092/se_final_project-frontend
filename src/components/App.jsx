@@ -25,6 +25,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [authChecking, setAuthChecking] = useState(true);
   const [authError, setAuthError] = useState("");
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
   const handleLoginClick = () => {
     setActiveModal("Login");
@@ -44,7 +45,6 @@ export default function App() {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (!token) {
       setAuthChecking(false);
       return;
@@ -58,11 +58,12 @@ export default function App() {
       .catch((err) => {
         console.error("Token validation failed:", err);
         localStorage.removeItem("token");
+        setToken(null);
       })
       .finally(() => {
         setAuthChecking(false);
       });
-  }, []);
+  }, [token]);
 
   {
     /* Fetching platforms and genres once at the app level */
@@ -103,6 +104,8 @@ export default function App() {
       const result = await register(data.email, data.username, data.password);
 
       localStorage.setItem("token", result.token);
+      setToken(result.token);
+
       setCurrentUser(result.user);
       setIsLoggedIn(true);
       handleModalClose();
@@ -119,6 +122,8 @@ export default function App() {
       const result = await login(data.email, data.password);
 
       localStorage.setItem("token", result.token);
+      setToken(result.token);
+
       setCurrentUser(result.user);
       setIsLoggedIn(true);
       handleModalClose();
@@ -135,7 +140,7 @@ export default function App() {
   };
 
   return (
-    <FavoritesProvider>
+    <FavoritesProvider token={token} isLoggedIn={isLoggedIn}>
       <main>
         <Header
           onSearch={handleSearch}

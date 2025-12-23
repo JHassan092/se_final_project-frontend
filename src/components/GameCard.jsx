@@ -6,14 +6,27 @@ import "../blocks/GameCard.css";
 
 export default function GameCard({ game, onClick }) {
   const [isHovered, setIsHovered] = useState(false);
-  const contextValue = useFavorites();
+  const [isProcessing, setIsProcessing] = useState(false);
 
+  const contextValue = useFavorites();
   const favorited = contextValue.isFavorite(game.id);
 
-  const toggleFavorite = () => {
-    favorited
-      ? contextValue.removeFromFavorites(game.id)
-      : contextValue.addToFavorites(game);
+  const handleFavoriteClick = async () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
+
+    const isFavNow = contextValue.isFavorite(game.id);
+
+    if (isFavNow) {
+      const favObj = contextValue.favorites.find(
+        (f) => String(f.gameId) === String(game.id)
+      );
+      await contextValue.removeFromFavorites(favObj);
+    } else {
+      await contextValue.addToFavorites(game);
+    }
+
+    setIsProcessing(false);
   };
 
   return (
@@ -66,7 +79,7 @@ export default function GameCard({ game, onClick }) {
           className={`game__card-favorite-btn ${favorited ? "active" : ""}`}
           onClick={(e) => {
             e.stopPropagation();
-            toggleFavorite();
+            handleFavoriteClick();
           }}
         >
           {favorited ? "❤️" : "🤍"}
