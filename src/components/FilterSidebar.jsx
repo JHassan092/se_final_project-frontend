@@ -48,6 +48,17 @@ export default function SideBar({
               Clear Favorites
             </button>
           )}
+          {(selectedPlatform || selectedGenre) && (
+            <button
+              className="sidebar__reset-btn"
+              onClick={() => {
+                handleFilter("platforms", null);
+                handleFilter("genres", null);
+              }}
+            >
+              Reset Filters
+            </button>
+          )}
         </div>
         {/* Platforms Section */}
         <div className="sidebar__section">

@@ -11,6 +11,51 @@ export default function GameCard({ game, onClick }) {
   const contextValue = useFavorites();
   const favorited = contextValue.isFavorite(game.id);
 
+  const getUniquePlatforms = (platforms) => {
+    if (!platforms) return [];
+
+    // Group platforms by family
+    const families = {
+      playstation: [],
+      xbox: [],
+      nintendo: [],
+      pc: [],
+      other: [],
+    };
+
+    platforms.forEach(({ platform }) => {
+      const slug = platform.slug.toLowerCase();
+      if (slug.includes("playstation")) {
+        families.playstation.push(platform);
+      } else if (slug.includes("xbox")) {
+        families.xbox.push(platform);
+      } else if (slug.includes("nintendo") || slug.includes("switch")) {
+        families.nintendo.push(platform);
+      } else if (
+        slug.includes("pc") ||
+        slug.includes("linux") ||
+        slug.includes("mac")
+      ) {
+        families.pc.push(platform);
+      } else {
+        families.other.push(platform);
+      }
+    });
+
+    // For each family, pick the platform with the highest ID (newest)
+    const uniquePlatforms = [];
+    Object.values(families).forEach((familyPlatforms) => {
+      if (familyPlatforms.length > 0) {
+        const newest = familyPlatforms.reduce((newest, current) =>
+          current.id > newest.id ? current : newest
+        );
+        uniquePlatforms.push(newest);
+      }
+    });
+
+    return uniquePlatforms;
+  };
+
   const handleFavoriteClick = async () => {
     if (isProcessing) return;
     setIsProcessing(true);
@@ -45,22 +90,17 @@ export default function GameCard({ game, onClick }) {
       {/* The Platform Icons */}
 
       <div className="game__card-platforms">
-        {game.platforms
-          ?.filter(
-            (p, index, self) =>
-              index === self.findIndex((t) => t.platform.id === p.platform.id)
-          )
-          .map(({ platform }) => (
-            <img
-              key={platform.id}
-              src={`/icons/${platform.slug}.svg`}
-              alt={platform.name}
-              className="game__card_platform-icon"
-              onError={(e) => {
-                e.target.style.display = "none";
-              }}
-            />
-          ))}
+        {getUniquePlatforms(game.platforms).map((platform) => (
+          <img
+            key={platform.id}
+            src={`/icons/${platform.slug}.svg`}
+            alt={platform.name}
+            className="game__card_platform-icon"
+            onError={(e) => {
+              e.target.style.display = "none";
+            }}
+          />
+        ))}
       </div>
 
       {/* The hover details */}

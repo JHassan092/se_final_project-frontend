@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const FavoritesContext = createContext();
 
@@ -40,26 +41,35 @@ export const FavoritesProvider = ({ children, token, isLoggedIn }) => {
 
     setFavorites((prev) => [...prev, tempFav]);
 
-    const res = await fetch("/api/favorites", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        gameId: game.id,
-        name: game.name,
-        background_image: game.background_image,
-        rating: game.rating,
-        released: game.released,
-      }),
-    });
+    try {
+      const res = await fetch("/api/favorites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          gameId: game.id,
+          name: game.name,
+          background_image: game.background_image,
+          rating: game.rating,
+          released: game.released,
+        }),
+      });
 
-    if (res.ok) {
-      const newFav = await res.json();
-      setFavorites((prev) =>
-        prev.map((f) => (f._id === tempFav._id ? newFav : f))
-      );
+      if (res.ok) {
+        const newFav = await res.json();
+        setFavorites((prev) =>
+          prev.map((f) => (f._id === tempFav._id ? newFav : f))
+        );
+        toast.success(`${game.name} added to favorites!`);
+      } else {
+        setFavorites((prev) => prev.filter((f) => f._id !== tempFav._id));
+        toast.error("Failed to add to favorites");
+      }
+    } catch (err) {
+      setFavorites((prev) => prev.filter((f) => f._id !== tempFav._id));
+      toast.error("Failed to add to favorites");
     }
   };
 
@@ -72,15 +82,22 @@ export const FavoritesProvider = ({ children, token, isLoggedIn }) => {
       return;
     }
 
-    const res = await fetch(`/api/favorites/${fav._id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const res = await fetch(`/api/favorites/${fav._id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (res.ok) {
-      setFavorites((prev) => prev.filter((f) => f._id !== fav._id));
+      if (res.ok) {
+        setFavorites((prev) => prev.filter((f) => f._id !== fav._id));
+        toast.success(`${fav.name} removed from favorites`);
+      } else {
+        toast.error("Failed to remove from favorites");
+      }
+    } catch (err) {
+      toast.error("Failed to remove from favorites");
     }
   };
 
@@ -91,14 +108,23 @@ export const FavoritesProvider = ({ children, token, isLoggedIn }) => {
 
   // Clear all button
   const clearFavorites = async () => {
-    await fetch("/api/favorites", {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const res = await fetch("/api/favorites", {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    setFavorites([]);
+      if (res.ok) {
+        setFavorites([]);
+        toast.success("All favorites cleared!");
+      } else {
+        toast.error("Failed to clear favorites");
+      }
+    } catch (err) {
+      toast.error("Failed to clear favorites");
+    }
   };
 
   return (

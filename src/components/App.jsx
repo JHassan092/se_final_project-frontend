@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import { fetchPlatforms, fetchGenres } from "../api/api.js";
 import { login, register, validateToken } from "../utils/auth.js";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 import Home from "./Home.jsx";
 import Favorites from "./Favorites.jsx";
@@ -12,9 +13,10 @@ import Header from "./Header.jsx";
 import Profile from "./Profile.jsx";
 import LoginModal from "./LoginModal.jsx";
 import RegisterModal from "./RegisterModal.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 import "../blocks/App.css";
-import ProtectedRoute from "./ProtectedRoute.jsx";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App() {
   const [platforms, setPlatforms] = useState([]);
@@ -114,9 +116,11 @@ export default function App() {
       setCurrentUser(result.user);
       setIsLoggedIn(true);
       handleModalClose();
+      toast.success("Registration successful! Welcome!");
     } catch (err) {
       console.error("Registration failled:", err);
       setAuthError(err.message || "Registration failed");
+      toast.error(err.message || "Registration failed");
     }
   };
 
@@ -132,9 +136,11 @@ export default function App() {
       setCurrentUser(result.user);
       setIsLoggedIn(true);
       handleModalClose();
+      toast.success("Login successful!");
     } catch (err) {
       console.error("Login failed:", err);
       setAuthError(err.message || "Login failed");
+      toast.error(err.message || "Login failed");
     }
   };
 
@@ -142,6 +148,7 @@ export default function App() {
     localStorage.removeItem("token");
     setCurrentUser(null);
     setIsLoggedIn(false);
+    toast.info("You have been logged out.");
   };
 
   const handleProfileClick = () => {
@@ -227,6 +234,14 @@ export default function App() {
         onRegister={handleRegisterSubmit}
         switchToLogin={() => setActiveModal("Login")}
         error={authError}
+      />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
       />
     </FavoritesProvider>
   );

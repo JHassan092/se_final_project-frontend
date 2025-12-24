@@ -2,6 +2,7 @@ import { useFavorites } from "../context/FavoritesContext";
 
 import "../blocks/Profile.css";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Profile({
   currentUser,
@@ -40,12 +41,15 @@ export default function Profile({
         const updatedUser = await res.json();
         handleSaveProfile(updatedUser);
         setIsEditing(false);
+        toast.success("Profile updated successfully!");
       } else {
         const err = await res.json();
         console.error("Failed to update profile:", err.message);
+        toast.error(err.message || "Failed to update profile");
       }
     } catch (err) {
       console.error("Error updating profile:", err);
+      toast.error("Error updating profile");
     }
   };
 
