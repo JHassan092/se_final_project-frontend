@@ -14,6 +14,7 @@ import LoginModal from "./LoginModal.jsx";
 import RegisterModal from "./RegisterModal.jsx";
 
 import "../blocks/App.css";
+import ProtectedRoute from "./ProtectedRoute.jsx";
 
 export default function App() {
   const [platforms, setPlatforms] = useState([]);
@@ -187,16 +188,25 @@ export default function App() {
                   />
                 }
               />
-              <Route path="/favorites" element={<Favorites />} />
+              <Route
+                path="/favorites"
+                element={
+                  <ProtectedRoute isLoggedIn={isLoggedIn}>
+                    <Favorites />
+                  </ProtectedRoute>
+                }
+              />
               <Route
                 path="/profile"
                 element={
-                  <Profile
-                    currentUser={currentUser}
-                    handleLogout={handleLogout}
-                    handleSaveProfile={handleSaveProfile}
-                    token={token}
-                  />
+                  <ProtectedRoute isLoggedIn={isLoggedIn}>
+                    <Profile
+                      currentUser={currentUser}
+                      handleLogout={handleLogout}
+                      handleSaveProfile={handleSaveProfile}
+                      token={token}
+                    />
+                  </ProtectedRoute>
                 }
               />
             </Routes>
