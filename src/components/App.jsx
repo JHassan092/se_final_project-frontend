@@ -3,15 +3,17 @@ import { FavoritesProvider } from "../context/FavoritesContext.jsx";
 import { Routes, Route } from "react-router-dom";
 import { fetchPlatforms, fetchGenres } from "../api/api.js";
 import { login, register, validateToken } from "../utils/auth.js";
+import { useNavigate } from "react-router-dom";
 
 import Home from "./Home.jsx";
 import Favorites from "./Favorites.jsx";
 import FilterSideBar from "./FilterSidebar.jsx";
 import Header from "./Header.jsx";
-
-import "../blocks/App.css";
+import Profile from "./Profile.jsx";
 import LoginModal from "./LoginModal.jsx";
 import RegisterModal from "./RegisterModal.jsx";
+
+import "../blocks/App.css";
 
 export default function App() {
   const [platforms, setPlatforms] = useState([]);
@@ -26,6 +28,8 @@ export default function App() {
   const [authChecking, setAuthChecking] = useState(true);
   const [authError, setAuthError] = useState("");
   const [token, setToken] = useState(localStorage.getItem("token"));
+
+  const navigate = useNavigate();
 
   const handleLoginClick = () => {
     setActiveModal("Login");
@@ -139,6 +143,18 @@ export default function App() {
     setIsLoggedIn(false);
   };
 
+  const handleProfileClick = () => {
+    // Navigate to profile page
+    navigate("/profile");
+  };
+
+  const handleSaveProfile = (updatedUser) => {
+    setCurrentUser((prevUser) => ({
+      ...prevUser,
+      ...updatedUser,
+    }));
+  };
+
   return (
     <FavoritesProvider token={token} isLoggedIn={isLoggedIn}>
       <main>
@@ -146,6 +162,9 @@ export default function App() {
           onSearch={handleSearch}
           handleLoginClick={handleLoginClick}
           handleRegisterClick={handleRegisterClick}
+          isLoggedIn={isLoggedIn}
+          currentUser={currentUser}
+          handleProfileClick={handleProfileClick}
         />
         <div className="page">
           <FilterSideBar
@@ -169,6 +188,17 @@ export default function App() {
                 }
               />
               <Route path="/favorites" element={<Favorites />} />
+              <Route
+                path="/profile"
+                element={
+                  <Profile
+                    currentUser={currentUser}
+                    handleLogout={handleLogout}
+                    handleSaveProfile={handleSaveProfile}
+                    token={token}
+                  />
+                }
+              />
             </Routes>
           </div>
         </div>

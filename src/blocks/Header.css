@@ -35,6 +35,14 @@
   gap: 16px;
 }
 
+.header__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
 .header__hamburger {
   display: none;
   background: none;
