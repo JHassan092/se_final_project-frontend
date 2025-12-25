@@ -1,4 +1,4 @@
-const RAWG_API_KEY = "df91f870169e45eb9990b6d06c74456a";
+const RAWG_API_KEY = import.meta.env.VITE_RAWG_API_KEY;
 
 const RAWG_BASE_URL = "https://api.rawg.io/api";
 
