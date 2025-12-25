@@ -1,8 +1,7 @@
-import { useFavorites } from "../context/FavoritesContext";
-
-import "../blocks/Profile.css";
 import { useState } from "react";
 import { toast } from "react-toastify";
+
+import "../blocks/Profile.css";
 
 export default function Profile({
   currentUser,
@@ -56,41 +55,43 @@ export default function Profile({
   return (
     <div className="profile">
       <h2 className="profile__title">Profile</h2>
+      <div className="profile__card">
+        <div className="profile__info">
+          <img
+            src={currentUser?.profileImage || "/default-avatar.png"}
+            alt="Profile"
+            className="profile__avatar"
+          />
 
-      <div className="profile__info">
-        <img
-          src={currentUser?.profileImage || "/default-avatar.png"}
-          alt="Profile"
-          className="profile__avatar"
-        />
-
-        <div className="profile__details">
-          {isEditing ? (
-            <>
-              <label>
-                Username:
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUserName(e.target.value)}
-                />
-              </label>
-              <label htmlFor="">Profile Image URL</label>
-              <input
-                type="text"
-                value={profileImage}
-                onChange={(e) => setProfileImage(e.target.value)}
-              />
-            </>
-          ) : (
-            <>
-              <strong>Username:</strong> {currentUser?.username}
-              <br />
-              <strong>Email:</strong> {currentUser?.email}
-            </>
-          )}
+          <div className="profile__details">
+            {isEditing ? (
+              <>
+                <label>
+                  Username:
+                  <input
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUserName(e.target.value)}
+                  />
+                </label>
+                <label>
+                  Profile Image URL
+                  <input
+                    type="text"
+                    value={profileImage}
+                    onChange={(e) => setProfileImage(e.target.value)}
+                  />
+                </label>
+              </>
+            ) : (
+              <>
+                <strong>Username:</strong> {currentUser?.username}
+                <br />
+                <strong>Email:</strong> {currentUser?.email}
+              </>
+            )}
+          </div>
         </div>
-
         <div className="profile__actions">
           {isEditing ? (
             <>

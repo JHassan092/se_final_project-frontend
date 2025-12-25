@@ -152,7 +152,6 @@ export default function App() {
   };
 
   const handleProfileClick = () => {
-    // Navigate to profile page
     navigate("/profile");
   };
 
