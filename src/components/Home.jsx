@@ -26,7 +26,7 @@ export default function Home({ selectedPlatform, selectedGenre, searchQuery }) {
     try {
       const today = new Date().toISOString().split("T")[0];
       const startDate = new Date();
-      startDate.setMonth(startDate.getMonth() - 1);
+      startDate.setMonth(startDate.getMonth() - 3);
       const startDateStr = startDate.toISOString().split("T")[0];
 
       const params = {

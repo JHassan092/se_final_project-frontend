@@ -5,7 +5,6 @@ import { useFavorites } from "../context/FavoritesContext";
 import "../blocks/GameCard.css";
 
 export default function GameCard({ game, onClick }) {
-  const [isHovered, setIsHovered] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const contextValue = useFavorites();
@@ -75,12 +74,7 @@ export default function GameCard({ game, onClick }) {
   };
 
   return (
-    <div
-      className="game__card"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
-    >
+    <div className="game__card" onClick={onClick}>
       <img
         src={game.background_image}
         alt={game.name}
@@ -103,27 +97,33 @@ export default function GameCard({ game, onClick }) {
         ))}
       </div>
 
-      {/* The hover details */}
-
-      {isHovered && (
-        <div className="game__card-hovered">
-          <p>Released: {game.released}</p>
-          <p>Genre: {game.genres?.[0]?.name || "Unknown"}</p>
-        </div>
-      )}
       {/* The title and favorite btn */}
       <div className="game__card-footer">
-        <h3 className="game__card-title">{game.name}</h3>
-        <button
-          type="button"
-          className={`game__card-favorite-btn ${favorited ? "active" : ""}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            handleFavoriteClick();
-          }}
-        >
-          {favorited ? "❤️" : "🤍"}
-        </button>
+        <div className="game__card-footer-top">
+          <h3 className="game__card-title">{game.name}</h3>
+          <button
+            type="button"
+            className={`game__card-favorite-btn ${favorited ? "active" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleFavoriteClick();
+            }}
+          >
+            {favorited ? "❤️" : "🤍"}
+          </button>
+        </div>
+
+        {/* Expanded hover details */}
+        <div className="game__card-footer-bottom">
+          <p>Released: {game.released}</p>
+          <p>
+            Genres:{" "}
+            {game.genres
+              ?.slice(0, 3)
+              .map((g) => g.name)
+              .join(", ") || "Unknown"}
+          </p>
+        </div>
       </div>
     </div>
   );

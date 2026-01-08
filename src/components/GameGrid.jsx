@@ -6,13 +6,15 @@ import "../blocks/GameGrid.css";
 export default function GameGrid({ games, handleCardClick, loading }) {
   return (
     <div className="game__grid">
-      {games.map((game) => (
-        <GameCard
-          key={game.id}
-          game={game}
-          onClick={() => handleCardClick(game.id)}
-        />
-      ))}
+      <div className="cards">
+        {games.map((game) => (
+          <GameCard
+            key={game.id}
+            game={game}
+            onClick={() => handleCardClick(game.id)}
+          />
+        ))}
+      </div>
       {loading && <Preloader type="inline" />}
     </div>
   );
