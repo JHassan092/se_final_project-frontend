@@ -12,9 +12,11 @@ export default function Favorites() {
       <div className="favorites">
         <h2 className="favorites__title">Your Favorites</h2>
         <div className="game__grid">
-          {favorites.map((fav) => (
-            <GameCard game={{ ...fav, id: fav.gameId }} key={fav._id} />
-          ))}
+          <div className="cards">
+            {favorites.map((fav) => (
+              <GameCard game={{ ...fav, id: fav.gameId }} key={fav._id} />
+            ))}
+          </div>
         </div>
       </div>
     );
